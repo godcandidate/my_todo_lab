@@ -67,7 +67,7 @@ This project includes a `docker-compose.yml` file to easily set up both the fron
 1. Clone the repository:
    ```bash
    git clone https://github.com/godcandidate/todo-app.git
-   cd todo-app
+   cd my-todo-lab
 
 2. Build and start the services with Docker Compose:
    ```bash
