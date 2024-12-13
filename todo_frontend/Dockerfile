@@ -14,7 +14,7 @@ RUN npm ci
 COPY . .
 
 # Production Stage
-FROM node:22.11.0-slim
+FROM node:22.11.0-alpine
 
 # Set the working directory for the runtime environment
 WORKDIR /usr/src/app
