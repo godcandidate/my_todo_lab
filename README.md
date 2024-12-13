@@ -55,10 +55,21 @@ Make sure you have the following installed:
 - [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/install/)
 
 ---
+
 ## Docker Compose Setup
 
-I used **multi-stage Docker builds** and **slim images** to reduce the overall image size. However, the images are still relatively large due to the MongoDB in-memory server used, which requires the full Node.js runtime.
+This Docker Compose configuration consists of three key services:
 
+- **Frontend**: Runs the React application on port `3000`.  
+- **Backend**: Hosts the Node.js application on port `4000` and connects to the MongoDB database.  
+- **MongoDB**: A database service with persistent storage to retain data even when the container is restarted.  
+
+### Features
+- **Persistent Storage**: MongoDB data is stored in a volume to prevent data loss.  
+- **Interconnected Services**: The backend communicates with MongoDB over a shared network.  
+- **Streamlined Workflow**: All services run together for easy development and testing.  
+
+This setup provides a reliable and efficient environment for building and maintaining the application.
 
 ## Running with Docker
 
