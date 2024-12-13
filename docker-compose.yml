@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  todo_frontend:
+    build:
+      context: ./todo_frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" 
+
+  todo_backend:
+    build:
+      context: ./todo_backend
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"  
+
