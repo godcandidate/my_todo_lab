@@ -1,5 +1,5 @@
 # Use a newer stable Node.js version
-FROM node:22.11.0
+FROM node:22.11.0-alpine
 
 # Set working directory
 WORKDIR /app
