@@ -8,18 +8,19 @@ Welcome to the Todo App! This project includes both a **frontend** and a **backe
 
 - [About the Project](#about-the-project)
 - [Getting Started](#getting-started)
+- [Getting Started](#docker-compose-setup)
 - [Running with Docker](#running-with-docker)
 - [Accessing the App](#accessing-the-app)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+
+
 
 ---
 
 ## About the Project
 
 This Todo App helps users manage tasks by allowing them to create, edit, delete, and view their todos. The backend is built with Node.js, Express, and MongoDB, while the frontend uses Next.js.
+
+![Todo App Screenshot](./todo-screenshoot.png)
 
 ### Project structure
 ```plaintext
