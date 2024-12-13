@@ -1,19 +1,13 @@
 import mongoose from "mongoose";
-import { MongoMemoryServer } from "mongodb-memory-server";
 
-
-let mongoServer: MongoMemoryServer;
-
+const mongoDbUrl = process.env.MONGO_URI || "mongodb://localhost:27017/mydatabase";
 
 const connectDB = async () => {
     try {
-        mongoServer = await MongoMemoryServer.create();
-        const inMemoryDbUrl = mongoServer.getUri();
-        await mongoose.connect(inMemoryDbUrl);
-        console.log('In-memory MongoDB connected');
-
+        await mongoose.connect(mongoDbUrl);
+        console.log('MongoDB connected');
     } catch (error: any) {
-        console.log(error);
+        console.error(error);
         setTimeout(connectDB, 5000).unref();
     }
 };
