@@ -1,15 +1,16 @@
 import { Todo } from "./types";
+import { getApiBaseUrl } from "./config";
 
-const API_BASE_URL = 'http://localhost:4000/api/v1/todos';
+const getApiUrl = () => getApiBaseUrl();
 
 export async function fetchTodos() {
-  const response = await fetch(`${API_BASE_URL}`);
+  const response = await fetch(`${getApiUrl()}`);
   if (!response.ok) throw new Error('Failed to fetch todos');
   return response.json();
 }
 
 export async function createTodo(todo: Omit<Todo, '_id'>) {
-  const response = await fetch(`${API_BASE_URL}/add`, {
+  const response = await fetch(`${getApiUrl()}/add`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(todo),
@@ -19,7 +20,7 @@ export async function createTodo(todo: Omit<Todo, '_id'>) {
 }
 
 export async function updateTodo(_id: string, todo: Partial<Todo>) {
-  const response = await fetch(`${API_BASE_URL}/${_id}`, {
+  const response = await fetch(`${getApiUrl()}/${_id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(todo),
@@ -29,14 +30,14 @@ export async function updateTodo(_id: string, todo: Partial<Todo>) {
 }
 
 export async function deleteTodo(_id: string) {
-  const response = await fetch(`${API_BASE_URL}/${_id}`, {
+  const response = await fetch(`${getApiUrl()}/${_id}`, {
     method: 'DELETE',
   });
   if (!response.ok) throw new Error('Failed to delete todo');
 }
 
 export async function searchTodos(query: string) {
-  const response = await fetch(`${API_BASE_URL}/search?q=${encodeURIComponent(query)}`);
+  const response = await fetch(`${getApiUrl()}/search?q=${encodeURIComponent(query)}`);
   if (!response.ok) throw new Error('Failed to search todos');
   return response.json();
 }
