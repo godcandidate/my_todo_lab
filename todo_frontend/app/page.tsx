@@ -1,140 +1,95 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Todo, TodoFormData } from '@/lib/types';
-import { TodoList } from '@/components/todo-list';
-import { TodoForm } from '@/components/todo-form';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { useToast } from '@/hooks/use-toast';
-import { Plus } from 'lucide-react';
-import * as api from '@/lib/api';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { CheckCircle, Code, Rocket, Settings } from 'lucide-react';
 
-export default function Home() {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
-  const { toast } = useToast();
-
-  useEffect(() => {
-    loadTodos();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const loadTodos = async () => {
-    try {
-      const data = await api.fetchTodos();
-      setTodos(data);
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to load todos',
-        variant: 'destructive',
-      });
-    }
-  };
-
-  const handleCreateTodo = async (data: TodoFormData) => {
-    try {
-      const newTodo = await api.createTodo(data);
-      setTodos([...todos, newTodo]);
-      setIsFormOpen(false);
-      toast({
-        title: 'Success',
-        description: 'Todo created successfully',
-      });
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to create todo',
-        variant: 'destructive',
-      });
-    }
-  };
-
-  const handleUpdateTodo = async (data: TodoFormData) => {
-    if (!editingTodo) return;
-    try {
-      const updatedTodo = await api.updateTodo(editingTodo._id, data);
-      setTodos(todos.map((todo) => (todo._id === editingTodo._id ? updatedTodo : todo)));
-      setEditingTodo(null);
-      toast({
-        title: 'Success',
-        description: 'Todo updated successfully',
-      });
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to update todo',
-        variant: 'destructive',
-      });
-    }
-  };
-
-  const handleDeleteTodo = async (id: string) => {
-    try {
-      await api.deleteTodo(id);
-      setTodos(todos.filter((todo) => todo._id !== id));
-      toast({
-        title: 'Success',
-        description: 'Todo deleted successfully',
-      });
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to delete todo',
-        variant: 'destructive',
-      });
-    }
-  };
-
-  const handleToggleComplete = async (id: string, active: boolean) => {
-    try {
-      const updatedTodo = await api.updateTodo(id, { active });
-      setTodos(todos.map((todo) => (todo._id === id ? updatedTodo : todo)));
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to update todo',
-        variant: 'destructive',
-      });
-    }
-  };
-
+export default function LandingPage() {
   return (
-    <div className="container mx-auto py-8 px-4">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold">Todo App</h1>
-        <Button onClick={() => setIsFormOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" /> Add Todo
-        </Button>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <div className="container mx-auto px-4 py-16">
+        {/* Hero Section */}
+        <div className="text-center mb-16">
+          <h1 className="text-6xl font-bold text-white mb-6">
+            Task<span className="text-purple-400">Ops</span>
+          </h1>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            My DevOps sandbox for practicing modern development and deployment workflows
+          </p>
+          <Link href="/todos">
+            <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 text-lg">
+              Launch Todo App <Rocket className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <Card className="bg-slate-800/50 border-slate-700 hover:bg-slate-800/70 transition-colors">
+            <CardHeader>
+              <CheckCircle className="h-8 w-8 text-green-400 mb-2" />
+              <CardTitle className="text-white">Task Management</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-gray-400">
+                Full CRUD operations with modern React patterns
+              </CardDescription>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-800/50 border-slate-700 hover:bg-slate-800/70 transition-colors">
+            <CardHeader>
+              <Code className="h-8 w-8 text-blue-400 mb-2" />
+              <CardTitle className="text-white">MERN Stack</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-gray-400">
+                MongoDB, Express, React, Node.js with TypeScript
+              </CardDescription>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-800/50 border-slate-700 hover:bg-slate-800/70 transition-colors">
+            <CardHeader>
+              <Settings className="h-8 w-8 text-orange-400 mb-2" />
+              <CardTitle className="text-white">Docker Ready</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-gray-400">
+                Containerized with Docker Compose for easy deployment
+              </CardDescription>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-800/50 border-slate-700 hover:bg-slate-800/70 transition-colors">
+            <CardHeader>
+              <Rocket className="h-8 w-8 text-purple-400 mb-2" />
+              <CardTitle className="text-white">DevOps Practice</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-gray-400">
+                CI/CD, testing, and modern deployment practices
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Tech Stack */}
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-white mb-8">Built With</h2>
+          <div className="flex flex-wrap justify-center gap-4">
+            {['Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Express', 'MongoDB', 'Docker'].map((tech) => (
+              <span
+                key={tech}
+                className="px-4 py-2 bg-slate-800/50 text-gray-300 rounded-full border border-slate-700"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
-
-      <TodoList
-        todos={todos}
-        onEdit={setEditingTodo}
-        onDelete={handleDeleteTodo}
-        onToggleComplete={handleToggleComplete}
-      />
-
-      <Dialog open={isFormOpen || !!editingTodo} onOpenChange={(open) => {
-        setIsFormOpen(open);
-        if (!open) setEditingTodo(null);
-      }}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{editingTodo ? 'Edit Todo' : 'Create Todo'}</DialogTitle>
-          </DialogHeader>
-          <TodoForm
-            initialData={editingTodo || undefined}
-            onSubmit={editingTodo ? handleUpdateTodo : handleCreateTodo}
-            onCancel={() => {
-              setIsFormOpen(false);
-              setEditingTodo(null);
-            }}
-          />
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

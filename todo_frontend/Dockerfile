@@ -1,32 +1,21 @@
-# Build Stage
-FROM node:22.11.0-slim AS build
+FROM node:22.11.0-alpine AS build
 
-# Set the working directory for the build stage
-WORKDIR /usr/src/app
-
-# Copy package.json and package-lock.json for dependency installation
+WORKDIR /app
 COPY package*.json ./
-
-# Install all dependencies (including development dependencies)
 RUN npm ci
-
-# Copy the rest of the application code
 COPY . .
+RUN npm run build
 
 # Production Stage
-FROM node:22.11.0-alpine
+FROM nginx:alpine
 
-# Set the working directory for the runtime environment
-WORKDIR /usr/src/app
+# Copy built files
+COPY --from=build /app/out /usr/share/nginx/html
 
-# Copy only the necessary files from the build stage (dependencies, dist, etc.)
-COPY --from=build /usr/src/app /usr/src/app
+# Copy entrypoint script
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
-# Install production dependencies only
-RUN npm ci --only=production
+EXPOSE 80
 
-# Expose the port that your app will run on
-EXPOSE 3000
-
-# Start the application
-CMD ["npm", "run", "dev"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
