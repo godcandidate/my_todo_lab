@@ -1,0 +1,24 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - cd todo_backend && npm ci
+        - cd todo_frontend && npm ci
+    build:
+      commands:
+        - cd todo_backend && npm run build
+        - cd todo_frontend && npm run build
+        - mkdir -p build
+        - cp -r todo_frontend/out/* build/
+        - cp -r todo_backend/dist build/api
+        - cp todo_backend/package.json build/api/
+        - cd build/api && npm ci --production
+  artifacts:
+    baseDirectory: build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - todo_frontend/node_modules/**/*
+      - todo_backend/node_modules/**/*

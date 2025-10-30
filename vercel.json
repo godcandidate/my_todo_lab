@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "todo_backend/server.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "todo_frontend/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/todo_backend/server.ts"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/todo_frontend/$1"
+    }
+  ]
+}
