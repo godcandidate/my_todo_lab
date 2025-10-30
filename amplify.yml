@@ -16,8 +16,8 @@ frontend:
         - pwd
         - mkdir -p ../build
         - cp -r out/* ../build/
-        - cp -r ../../todo_backend/dist ../build/api
-        - cp ../../todo_backend/package.json ../build/api/
+        - cp -r ../todo_backend/dist ../build/api
+        - cp ../todo_backend/package.json ../build/api/
         - cd ../build/api && npm ci --production
   artifacts:
     baseDirectory: build
