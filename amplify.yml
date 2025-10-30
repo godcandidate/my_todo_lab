@@ -9,8 +9,8 @@ frontend:
 
     build:
       commands:
-        - cd todo_backend && npm run build
-        - cd ../todo_frontend && npm run build
+        - cd .. && cd todo_backend && npm run build
+        - cd .. && cd todo_frontend && npm run build
 
         # Assemble artifact
         - mkdir -p build
