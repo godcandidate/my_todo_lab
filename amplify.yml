@@ -3,18 +3,20 @@ frontend:
   phases:
     preBuild:
       commands:
-        - cd $CODEBUILD_SRC_DIR/todo_backend && npm ci
-        - cd $CODEBUILD_SRC_DIR/todo_frontend && npm ci
+        # These run from the repo root (my_todo_lab) by default
+        - cd todo_backend && npm ci
+        - cd ../todo_frontend && npm ci   # go back to root first
 
     build:
       commands:
-        - cd $CODEBUILD_SRC_DIR/todo_backend && npm run build
-        - cd $CODEBUILD_SRC_DIR/todo_frontend && npm run build
+        - cd todo_backend && npm run build
+        - cd ../todo_frontend && npm run build
 
+        # Assemble artifact
         - mkdir -p build
-        - cp -r $CODEBUILD_SRC_DIR/todo_frontend/out/* build/
-        - cp -r $CODEBUILD_SRC_DIR/todo_backend/dist build/api
-        - cp $CODEBUILD_SRC_DIR/todo_backend/package.json build/api/
+        - cp -r todo_frontend/out/* build/
+        - cp -r todo_backend/dist build/api
+        - cp todo_backend/package.json build/api/
         - cd build/api && npm ci --production
 
   artifacts:
@@ -24,5 +26,5 @@ frontend:
 
   cache:
     paths:
-      - todo_frontend/node_modules/**/*
       - todo_backend/node_modules/**/*
+      - todo_frontend/node_modules/**/*
