@@ -18,6 +18,7 @@ frontend:
         - cp -r out/* ../build/
         - cp -r ../todo_backend/dist ../build/api
         - cp ../todo_backend/package.json ../build/api/
+        - cp ../todo_backend/package-lock.json ../build/api/
         - cd ../build/api && npm ci --production
   artifacts:
     baseDirectory: build
