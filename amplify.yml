@@ -13,12 +13,12 @@ frontend:
         - cd .. && cd todo_frontend && npm run build
 
         # Assemble artifact
-        - mkdir -p build
-        - cp -r todo_frontend/out/* build/
-        - cp -r todo_backend/dist build/api
-        - cp todo_backend/package.json build/api/
-        - cd build/api && npm ci --production
-
+        - pwd
+        - mkdir -p ../build
+        - cp -r out/* ../build/
+        - cp -r ../../todo_backend/dist ../build/api
+        - cp ../../todo_backend/package.json ../build/api/
+        - cd ../build/api && npm ci --production
   artifacts:
     baseDirectory: build
     files:
